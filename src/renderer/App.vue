@@ -6,10 +6,14 @@
 
 <script>
   export default {
-    name: 'my-wechaty'
+    name: 'main',
+    
   }
 </script>
-
-<style>
-  /* CSS */
+<style scoped>
+#app{
+  width: 100%;
+  height: 100%;
+}
 </style>
+

@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow,ipcMain } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -18,9 +18,17 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
-    useContentSize: true,
-    width: 1000
+    height: 550,
+    width: 400,
+    minWidth: 750,//窗口的最小宽度, 默认值为 0.
+    minHeight: 550,// 窗口的最小高度. 默认值为 0.
+    useContentSize: false,//窗口的大小是否包括边框
+    center:true,//窗口居中
+    transparent:true,//窗口透明
+    hasShadow:false,//窗口是否有阴影. 仅在 macOS 上支持
+    // backgroundColor:'#515151',//设置窗口颜色
+    resizable:true,//窗口大小是否可以改变
+    frame:false,//是否显示边框和
   })
 
   mainWindow.loadURL(winURL)
@@ -44,6 +52,15 @@ app.on('activate', () => {
   }
 })
 
+ipcMain.on('minimize',(event,arg)=>{
+  mainWindow.minimize();
+})
+ipcMain.on('maximize',(event,arg)=>{
+  mainWindow.maximize();
+})
+ipcMain.on('unmaximize',(event,arg)=>{
+  mainWindow.unmaximize();
+})
 /**
  * Auto Updater
  *

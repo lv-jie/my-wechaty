@@ -15,3 +15,9 @@ npm run dev
 npm run build
 
 
+# 目录结构
+src 源码目录
+|
+├─main 主进程
+├─renderer 渲染进程
+├─index.ejs 渲染进程入口文件
