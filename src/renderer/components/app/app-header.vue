@@ -1,7 +1,7 @@
 <template>
   <div class="app-header">
     <div class="search"></div>
-    <div class="title"></div>
+    <div class="title text-over">{{title}}</div>
     <div class="ctrl">
       <button class="my-button" @click="minimize">
         <i class="wxicon wx-min1"></i>
@@ -12,7 +12,7 @@
       <button class="my-button" @click="maximize" v-else>
         <i class="wxicon wx-plan1"></i>
       </button>
-      <button class="my-button close">
+      <button class="my-button close" @click="winClose">
         <i class="wxicon wx-close1"></i>
       </button>
     </div>
@@ -28,7 +28,8 @@ export default {
   },
   computed:{
     ...mapState({
-      isWinMax:({option})=>option.isWinMax
+      isWinMax:({option})=>option.isWinMax,
+      title:({option})=>option.title,
     })
   },
   methods:{
@@ -40,6 +41,9 @@ export default {
     },
     unmaximize(){
       this.$electron.ipcRenderer.send('unmaximize',true)
+    },
+    winClose(){
+      this.$electron.ipcRenderer.send('win-close',true)
     }
   }
 }
@@ -52,6 +56,10 @@ export default {
   display: flex;
   justify-content: space-between;
   -webkit-app-region: drag;
+  .title{
+    max-width: 300px;
+    padding: 5px 0;
+  }
   .ctrl{
     -webkit-app-region: no-drag;
     -webkit-user-select:none;

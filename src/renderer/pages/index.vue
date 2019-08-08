@@ -1,12 +1,14 @@
 <template>
   <div class="indexPage">
-    <el-button type="success" @click="goStart">
-      开始使用
-    </el-button>
+    <app-header></app-header>
   </div>
 </template>
 <script>
+import appHeader from '../components/app/app-header'
 export default {
+  components:{
+    appHeader
+  },
   methods:{
     goStart(){
       this.$router.push('/home')

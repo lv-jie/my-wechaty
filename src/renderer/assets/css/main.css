@@ -1,4 +1,4 @@
-@import 'https://at.alicdn.com/t/font_1338977_jz3htgz462.css';
+@import 'https://at.alicdn.com/t/font_1338977_9qd44qd1iwm.css';
 html,
 body{
   width: 100%;
@@ -59,3 +59,9 @@ ul,li{
 }
 
 button {border:0 none;background-color:transparent;cursor:pointer;outline: none;}
+/* 文字超出显示省略号 */
+.text-over{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
