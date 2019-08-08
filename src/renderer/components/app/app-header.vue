@@ -4,16 +4,16 @@
     <div class="title"></div>
     <div class="ctrl">
       <button class="my-button" @click="minimize">
-        <i class="wxicon wx-min"></i>
+        <i class="wxicon wx-min1"></i>
       </button>
       <button class="my-button" @click="unmaximize" v-if="isWinMax">
-        <i class="wxicon wx-max"></i>
+        <i class="wxicon wx-max1"></i>
       </button>
       <button class="my-button" @click="maximize" v-else>
-        <i class="wxicon wx-plan"></i>
+        <i class="wxicon wx-plan1"></i>
       </button>
       <button class="my-button close">
-        <i class="wxicon wx-close"></i>
+        <i class="wxicon wx-close1"></i>
       </button>
     </div>
   </div>
@@ -54,11 +54,12 @@ export default {
   -webkit-app-region: drag;
   .ctrl{
     -webkit-app-region: no-drag;
+    -webkit-user-select:none;
     .my-button{
       padding: 5px 8px; 
       .wxicon{
-        font-size: 14px;
-        color: #333;
+        font-size: 11px;
+        color: #444;
       }
       &:hover{
         background: #e3e3e3;
