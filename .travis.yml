@@ -30,6 +30,7 @@ install:
 - npm install -g xvfb-maybe
 - yarn
 script:
+- yarn config set ignore-engines true
 - yarn run build
 branches:
   only:

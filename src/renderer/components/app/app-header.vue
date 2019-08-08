@@ -51,7 +51,9 @@ export default {
   border-bottom:1px solid #eee; 
   display: flex;
   justify-content: space-between;
+  -webkit-app-region: drag;
   .ctrl{
+    -webkit-app-region: no-drag;
     .my-button{
       padding: 5px 8px; 
       .wxicon{

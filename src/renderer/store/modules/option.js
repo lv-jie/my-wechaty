@@ -1,5 +1,5 @@
 const state = {
-  isWinMax:true
+  isWinMax:false
 }
 
 const mutations = {

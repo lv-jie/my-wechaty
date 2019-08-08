@@ -1,5 +1,5 @@
 import { app, BrowserWindow,ipcMain } from 'electron'
-
+import store from '../renderer/store'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -32,11 +32,28 @@ function createWindow () {
   })
 
   mainWindow.loadURL(winURL)
-
+  //窗口失去焦点时触发
+  mainWindow.on('blur',event=>{
+    // console.log(store.state.option.isWinMax)
+    // mainWindow.show()
+    }
+  )
+  // 窗口最大化时触发
+  mainWindow.on('maximize',event=>{
+    store.commit('SET_IS_WIN_MAX',true)
+    }
+  )
+  // 窗口退出最大化时触发
+  mainWindow.on('unmaximize',event=>{
+    
+    store.commit('SET_IS_WIN_MAX',false)
+    }
+  )
   mainWindow.on('closed', () => {
     mainWindow = null
   })
 }
+
 
 app.on('ready', createWindow)
 
@@ -52,14 +69,18 @@ app.on('activate', () => {
   }
 })
 
+
+//窗口最小化
 ipcMain.on('minimize',(event,arg)=>{
   mainWindow.minimize();
 })
 ipcMain.on('maximize',(event,arg)=>{
   mainWindow.maximize();
+  store.commit('SET_IS_WIN_MAX',true)
 })
 ipcMain.on('unmaximize',(event,arg)=>{
   mainWindow.unmaximize();
+  store.commit('SET_IS_WIN_MAX',false)
 })
 /**
  * Auto Updater
