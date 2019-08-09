@@ -1,7 +1,9 @@
 <template>
   <div class="app-header">
     <div class="search"></div>
-    <div class="title text-over">{{title}}</div>
+    <div class="title">
+      <div class="title-inner text-over">{{title}}</div>
+    </div>
     <div class="ctrl">
       <button class="my-button" @click="minimize">
         <i class="wxicon wx-min1"></i>
@@ -30,6 +32,7 @@ export default {
     ...mapState({
       isWinMax:({option})=>option.isWinMax,
       title:({option})=>option.title,
+      userInfo:({bot})=>bot.userInfo
     })
   },
   methods:{
@@ -56,13 +59,28 @@ export default {
   display: flex;
   justify-content: space-between;
   -webkit-app-region: drag;
+  position: relative;
   .title{
-    max-width: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    height: 100%;
     padding: 5px 0;
+    z-index: 1000;
+    .title-inner{
+      max-width: 300px;
+      overflow: auto;
+      display: inline-block;
+    }
   }
   .ctrl{
     -webkit-app-region: no-drag;
     -webkit-user-select:none;
+    position: relative;
+    z-index: 3000;
+    background: #fff;
     .my-button{
       padding: 5px 8px; 
       .wxicon{

@@ -9,20 +9,14 @@ const bot = {
   bot:null,
   init(){
     let self = this;
-    let bot = Wechaty.instance()
-    console.log(111)
+    let bot = Wechaty.instance({name:'my-wechaty'})
     bot.on('scan',(qrcode,status)=>{
-      console.log(222)
-      self.qrcode = decodeURIComponent(qrcode);
-      console.log(`${status}: ${decodeURIComponent(qrcode)} - Scan QR Code of the url to login:`)
+      let url = decodeURIComponent(qrcode);
+      if (!/201|200/.test(String(status))) {
+        store.commit('SET_LOGIN_URL',url)
+      }
+      console.log(`${status}: ${decodeURIComponent(url)} - Scan QR Code of the url to login:`)
     })
-    .on('logout',(user)=>{
-      console.log(`退出登录！`);
-    })
-    .on('login',(user)=>{
-      console.log(user.id);
-      
-    }).start()
     return bot
 
   }

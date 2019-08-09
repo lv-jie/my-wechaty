@@ -1,7 +1,9 @@
 <template>
   <div class="app-option">
     <div class="top">
-      <div class="user"></div>
+      <div class="user">
+        <img :src="`../../../static/${userInfo.avatar}`" alt="">
+      </div>
       <button class="my-button" title="消息" @click="goRouter('/message')">
         <i class="wxicon wx-message"></i>
       </button>
@@ -20,7 +22,13 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex';
 export default {
+  computed:{
+    ...mapState({
+      userInfo:({bot})=>bot.userInfo
+    })
+  },
   methods: {
     goRouter(url){
       this.$router.push(url)
@@ -53,6 +61,17 @@ export default {
   .top{
     display: flex;
     flex-direction: column;
+    align-items:center;
+    padding: 8px 0;
+    .user{
+      overflow: hidden;
+      border-radius: 2px;
+      width: 40px;
+      display: inline-block;
+      img{
+        width: 100%;
+      }
+    }
   }
   .bottom{
     display: flex;

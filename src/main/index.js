@@ -17,7 +17,13 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 let bot;
-function createWindow () {
+async function createWindow () {
+  if (!fs.existsSync(path.join(__static,'/avatar'))) {
+    fs.mkdirSync(path.join(__static,'/avatar'));
+    console.log("文件夹创建成功");
+  } else {
+      console.log("文件夹已存在");
+  }
   /**
    * Initial window options
    */
@@ -61,6 +67,45 @@ function createWindow () {
     mainWindow = null
   })
   bot = wxbot.init()
+  bot.on('logout',(user)=>{
+    mainWindow.webContents.send('wx_logout');
+    store.commit('SET_LOGIN_TYPE',false);
+    console.log(`退出登录！`);
+  })
+  .on('login',async (user)=>{
+    const file = await user.avatar()
+    let gender=user.gender()
+    // let province=user.province()?user.province():await user.province()
+    // let city=user.city()?user.city():await user.city()
+    let name = file.name;
+    let avatarPath = path.join(__static,`/avatar/${name}`);
+    let userInfo = {
+      wx_id:user.id,
+      name:user.name(),
+      avatar:`/avatar/${name}`,
+      gender,
+      signature:user.payload.signature,
+      province:user.payload.province,
+      city:user.payload.city,
+    }
+    store.dispatch('setUserInfo', userInfo)
+    fs.exists(avatarPath,async (flag)=>{
+      if(flag){
+        console.log("文件存在");
+      }else{
+        console.log("文件不存在");
+        await file.toFile(avatarPath);
+      }
+    })
+    mainWindow.webContents.send('wx_login');
+    store.commit('SET_LOGIN_TYPE',true);
+  })
+  await bot.start()
+  let isWxlogin = !bot.logonoff();
+  store.commit('SET_LOGIN_TYPE',isWxlogin);
+  if(isWxlogin){
+
+  }
   store.commit('SET_VERSION','v0.0.1');
   setTray();
 }
