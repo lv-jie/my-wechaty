@@ -1,7 +1,7 @@
 <template>
   <div class="messagePage">
     <div class="tabs">
-      <my-tabs v-model='activeId' :list='list'></my-tabs>
+      <my-tabs v-model='activeId' :list='friendList'></my-tabs>
     </div>
     <div class="line"></div>
     <div class="message">
@@ -10,7 +10,8 @@
   </div>
 </template>
 <script>
-import myTabs from '../components/base/tabs'
+import myTabs from '../components/base/tabs';
+import {mapState} from 'vuex';
 export default {
   components:{
     myTabs
@@ -18,18 +19,28 @@ export default {
   data() {
     return {
       activeId:'',
-      list:[
-        { 
-          id:'asdafqweqweads',
-          name:'张三',
-          wx_id:'aasdadasdasda',
-          message:{
-            text:'asdasdad',
-            time:'2019-08-09T08:09:08.398Z'
-          }
-        }
-      ]
+      list:[]
     }
+  },
+  computed:{
+    ...mapState({
+      friendList:({bot})=>bot.friendList
+    })
+  },
+  methods:{
+    getFriendList(){
+      console.log(this.userInfo)
+      db_friend.find({user_id:this.userInfo.wx_id},(err,res)=>{
+        if(err){
+          console.log('err---',err)
+        }else{
+          this.list = res
+        }
+      })
+    }
+  },
+  created(){
+    // this.getFriendList()
   },
 }
 </script>

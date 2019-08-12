@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import ELEMENT from 'element-ui';
 Vue.use(ELEMENT);
 
+import '@/assets/css/scrollbar.css'
 import '@/assets/css/main.css'
 
 

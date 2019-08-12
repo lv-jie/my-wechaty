@@ -5,23 +5,14 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapActions} from 'vuex';
 export default {
   name: 'main',
-  computed: {
-    ...mapState({
-      wxLoginType:({bot})=>bot.loginType
-    })
+  methods:{
+    ...mapActions(['initLoginType'])
   },
   created(){
-    console.log(1)
-    if(this.wxLoginType){
-      console.log(2)
-      this.$router.push('/home')
-    }else{
-      console.log(3)
-      this.$router.push('/wxLogin')
-    }
+    this.initLoginType()
     this.$electron.ipcRenderer.on('wx_login',(event, arg)=>{
       this.$router.push('/home')
       console.log(event, arg)

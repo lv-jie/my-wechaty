@@ -1,6 +1,7 @@
 import { app, BrowserWindow,ipcMain,Tray,Menu } from 'electron'
 import store from '../renderer/store';
 import wxbot from './bot';
+import db_message from './data/bot_message';
 const path = require("path");
 const fs=require('fs');
 const request = require("request");
@@ -11,12 +12,16 @@ const request = require("request");
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
-
+// process.on('unhandledRejection', (reason, p) => {
+//   console.log('Unhandled Rejection at:', p, 'reason:', reason);
+//   // application specific logging, throwing an error, or other logic here
+// });
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 let bot;
+let intFriend =null;
 async function createWindow () {
   if (!fs.existsSync(path.join(__static,'/avatar'))) {
     fs.mkdirSync(path.join(__static,'/avatar'));
@@ -70,6 +75,8 @@ async function createWindow () {
   bot.on('logout',(user)=>{
     mainWindow.webContents.send('wx_logout');
     store.commit('SET_LOGIN_TYPE',false);
+    clearInterval(intFriend);
+    intFriend=null;
     console.log(`退出登录！`);
   })
   .on('login',async (user)=>{
@@ -99,7 +106,13 @@ async function createWindow () {
     })
     mainWindow.webContents.send('wx_login');
     store.commit('SET_LOGIN_TYPE',true);
+    store.dispatch('getAllFriend',bot);
+    intFriend = setInterval(()=>{
+      console.log('------')
+      store.dispatch('getAllFriend',bot);
+    },60000*5)
   })
+  .on('message',onMessage)
   await bot.start()
   let isWxlogin = !bot.logonoff();
   store.commit('SET_LOGIN_TYPE',isWxlogin);
@@ -110,6 +123,40 @@ async function createWindow () {
   setTray();
 }
 
+async function onMessage(message) {
+  try {
+    console.log('----111------')
+    const room      = message.room()//房间
+    const sender    = message.from()//来自
+    const receiver  = message.to()  
+    const content   = message.text()//消息内容
+    const time = message.date()//收到时间
+    const msg_type = message.type()//消息类型
+    if(room){
+      // 群消息
+      db_message.insert({
+        user_id:receiver.id,
+        type:1,
+        msg_type,
+        content,
+        room_id:room.id,
+        from_id:sender.id,
+        time
+      })
+    }else{
+      db_message.insert({
+        user_id:receiver.id,
+        type:2,
+        msg_type,
+        content,
+        from_id:sender.id,
+        time
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 app.on('ready', createWindow)
 

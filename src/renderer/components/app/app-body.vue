@@ -34,6 +34,7 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
+  position: relative;
   .left{
     width: 60px;
     height: 100%;
@@ -44,13 +45,18 @@ export default {
     height: 100%;
     overflow: hidden;
     border-radius: 0 5px 5px 0;
+    position: relative;
     .header{
       height: 50px;
       width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
     .content{
       width: 100%;
       height: 100%;
+      padding-top: 50px;
     }
   }
 }
