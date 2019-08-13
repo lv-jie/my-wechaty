@@ -2,6 +2,8 @@ import { app, BrowserWindow,ipcMain,Tray,Menu } from 'electron'
 import store from '../renderer/store';
 import wxbot from './bot';
 import db_message from './data/bot_message';
+import db_friend from './data/bot_friend';
+const { FileBox } = require('wechaty');
 const path = require("path");
 const fs=require('fs');
 const request = require("request");
@@ -85,6 +87,7 @@ async function createWindow () {
     // let province=user.province()?user.province():await user.province()
     // let city=user.city()?user.city():await user.city()
     let name = file.name;
+    // name = name.replace(/(\[|\]|\\|\/|\s)/g,'');
     let avatarPath = path.join(__static,`/avatar/${name}`);
     let userInfo = {
       wx_id:user.id,
@@ -130,8 +133,8 @@ async function onMessage(message) {
     const sender    = message.from()//来自
     const receiver  = message.to()  
     const content   = message.text()//消息内容
-    const time = message.date()//收到时间
     const msg_type = message.type()//消息类型
+    const isSelf = message.self();
     if(room){
       // 群消息
       db_message.insert({
@@ -139,19 +142,46 @@ async function onMessage(message) {
         type:1,
         msg_type,
         content,
+        isRead:0,
         room_id:room.id,
         from_id:sender.id,
-        time
+      },(err,res)=>{
+        store.dispatch('getAllFriend',bot);
       })
     }else{
-      db_message.insert({
-        user_id:receiver.id,
-        type:2,
-        msg_type,
-        content,
-        from_id:sender.id,
-        time
-      })
+      if(isSelf){
+        db_message.insert({
+          user_id:sender.id,
+          type:3,
+          msg_type,
+          content,
+          isRead:1,
+          to_id:receiver.id,
+        },(err,res)=>{
+          store.dispatch('getAllFriend',bot);
+        })
+      }else{
+        db_message.insert({
+          user_id:receiver.id,
+          type:2,
+          msg_type,
+          content,
+          isRead:0,
+          from_id:sender.id,
+        },(err,res)=>{
+          store.dispatch('getAllFriend',bot);
+        })
+        let myCont = await bot.Contact.find({id:sender.id});
+        let fileBox1 = await FileBox.fromFile(path.join(__static,'/user.jpg'))
+        console.log(fileBox1)
+        await myCont.say(fileBox1);
+        db_friend.findOne({wx_id:sender.id},(err,res)=>{
+          if(!err){
+            setInterTray(res.avatar)
+          }
+        })
+      }
+      
     }
   } catch (error) {
     console.log(error)
@@ -206,7 +236,7 @@ function setTray () {
 };
 
 let timer = null;
-function setInterTray () {
+function setInterTray (url) {
   var count = 0;
   clearInterval(timer);
   timer = null;
@@ -215,7 +245,7 @@ function setInterTray () {
     if (count%2 == 0) {
       appTray.setImage(path.join(__static, '/empty.ico'))
     } else {
-      appTray.setImage(path.join(__static, '/user.png'))
+      appTray.setImage(path.join(__static, url))
     }
   },500)
   appTrayClick = function () {

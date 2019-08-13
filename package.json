@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
-    "build": "node .electron-vue/build.js && electron-builder",
+    "build": "node .electron-vue/build.js && electron-builder --mac",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
@@ -48,6 +48,11 @@
     },
     "linux": {
       "icon": "build/icons"
+    },
+    "nsis": {   
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": true
     }
   },
   "dependencies": {
@@ -61,8 +66,8 @@
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vuex-electron": "^1.0.0",
-    "wechaty": "^0.25.11",
-    "wechaty-puppet-puppeteer": "^0.16.1"
+    "wechaty": "^0.27.53",
+    "wechaty-puppet-puppeteer": "^0.17.23"
   },
   "devDependencies": {
     "ajv": "^6.5.0",

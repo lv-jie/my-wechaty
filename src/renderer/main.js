@@ -12,7 +12,8 @@ Vue.use(ELEMENT);
 import '@/assets/css/scrollbar.css'
 import '@/assets/css/main.css'
 
-
+import filters from './assets/js/filters';
+Vue.use(filters)
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false

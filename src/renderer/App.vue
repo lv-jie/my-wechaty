@@ -7,7 +7,7 @@
 <script>
 import {mapActions} from 'vuex';
 export default {
-  name: 'main',
+  name: 'app',
   methods:{
     ...mapActions(['initLoginType'])
   },

@@ -3,14 +3,14 @@
     <ul class="tab-list">
       <li class="tab-list-item" v-for="(item,index) in list" :key="index" :class="{active:value==item.wx_id}" @click="goChild(item)">
         <div class="item-img">
-          <img :src="`../../../static/${item.avatar}`" alt="">
+          <img :src="`static/${item.avatar}`" alt="">
         </div>
         <div class="item-text">
           <div class="item-name text-over">{{item.name}}</div>
-          <div class="item-msg text-over">{{item.msg}}</div>
+          <div class="item-msg text-over">{{item.msg_content}}</div>
         </div>
         <div class="item-time">
-          {{item.time}}
+          {{item.msg_time|msgTime}}
         </div>
       </li>
     </ul>
@@ -75,6 +75,19 @@ export default {
         &>*{
           width: 100%;
         }
+        .item-name{
+          color: #333;
+          line-height: 1.5;
+        }
+        .item-msg{
+          color: #999;
+          font-size: 12px;
+          line-height: 2;
+        }
+      }
+      .item-time{
+          color: #999;
+          font-size: 12px;
       }
     }
   }

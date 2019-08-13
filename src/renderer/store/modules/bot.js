@@ -40,11 +40,11 @@ const actions = {
       if(!err){
         if(res){
           db_user.update({wx_id:user.wx_id},user,(err,newNum)=>{
-            console.log(newNum)
+            // console.log(newNum)
           })
         }else{
           db_user.insert(user,(err,newUser)=>{
-            console.log(newUser)
+            // console.log(newUser)
           })
         }
       }
@@ -63,13 +63,14 @@ const actions = {
       res = list.forEach(async (item,index)=>{
         const file = await item.avatar()
         let name = file.name;
+        name = name.replace(/(\[|\]|\\|\/|\s)/g,'');
         let avatarPath = path.join(__static,`/avatar/${name}`);
         let userInfo = {
           wx_id:item.id,
           user_id:id,
           name:item.payload.name,
           alias:item.payload.alias,
-          avatar:`/avatar/${name}`,
+          avatar:`avatar/${name}`,
           gender:item.payload.gender,
           signature:item.payload.signature,
           province:item.payload.province,
@@ -86,13 +87,12 @@ const actions = {
         db_friend.findOne({wx_id:userInfo.wx_id},(err,res)=>{
           if(!err){
             if(res){
-              db_message.find({$or:[{form_id:userInfo.wx_id},{to_id:userInfo.wx_id}]}).sort({time:-1}).exec(function (err, docs){
+              db_message.find({$or:[{from_id:userInfo.wx_id},{to_id:userInfo.wx_id}]}).sort({createdAt:-1}).exec(function (err, docs){
                 let temp
                 if(docs.length){
-                  console.log(docs)
                   temp = {
                     ...userInfo,
-                    msg_time:docs[0].time,
+                    msg_time:docs[0].createdAt,
                     msg_content:docs[0].content
                   }
                 }else{
@@ -105,7 +105,7 @@ const actions = {
                 db_friend.update({wx_id:userInfo.wx_id},temp,(err,newNum)=>{
                   // console.log(newNum)
                   if(index==list.length-1){
-                    db_friend.find({},(err,allList)=>{
+                    db_friend.find({user_id:id}).sort({msg_time:-1}).exec((err,allList)=>{
                       commit('SET_FRIEND_LIST',allList)
                     })
                   }
@@ -113,14 +113,32 @@ const actions = {
               })
               
             }else{
-              db_friend.insert(userInfo,(err,newUser)=>{
-                // console.log(newUser)
-                if(index==list.length-1){
-                  db_friend.find({},(err,allList)=>{
-                    commit('SET_FRIEND_LIST',allList)
-                  })
+              db_message.find({$or:[{from_id:userInfo.wx_id},{to_id:userInfo.wx_id}]}).sort({createdAt:-1}).exec(function (err, docs){
+                let temp
+                if(docs.length){
+                  temp = {
+                    ...userInfo,
+                    msg_time:docs[0].createdAt,
+                    msg_content:docs[0].content
+                  }
+                }else{
+                  temp = {
+                    ...userInfo,
+                    msg_time:0,
+                    msg_content:''
+                  }
                 }
+                db_friend.insert(temp,(err,newUser)=>{
+                  // console.log(newUser)
+                  if(index==list.length-1){
+                    db_friend.find({user_id:id}).sort({msg_time:-1}).exec((err,allList)=>{
+                      commit('SET_FRIEND_LIST',allList)
+                    })
+                  }
+                })
               })
+              
+              
             }
             // if(res){
             //   db_friend.remove({_id:res._id},{},(e,numRemoved)=>{
