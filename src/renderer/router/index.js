@@ -10,7 +10,7 @@ import Setting from '@/pages/setting';
 import Message from '@/pages/message';
 import MessageInfo from '@/pages/messageInfo';
 import Empty from '@/pages/empty';
-import Tip from '@/pages/Tip';
+import Tip from '@/pages/tip';
 Vue.use(Router)
 
 let router =new Router({
