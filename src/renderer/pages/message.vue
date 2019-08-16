@@ -57,7 +57,9 @@ export default {
   }
   .line{
     width: 1px;
-
+  }
+  .message{
+    width: calc(100% - 276px);
   }
 }
 </style>

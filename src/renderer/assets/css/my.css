@@ -1,0 +1,7 @@
+.my-button{
+  font-size: 14px;
+  padding: 4px 10px;
+}
+.my-button[type="success"]{
+  background: #9eea6a;
+}

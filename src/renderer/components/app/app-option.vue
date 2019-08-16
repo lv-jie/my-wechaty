@@ -2,7 +2,7 @@
   <div class="app-option">
     <div class="top">
       <div class="user">
-        <img :src="`../../../static/${userInfo.avatar}`" alt="">
+        <img :src="`${userInfo.avatar}`" alt="">
       </div>
       <button class="my-button" title="消息" @click="goRouter('/message')">
         <i class="wxicon wx-message"></i>
@@ -23,6 +23,7 @@
 </template>
 <script>
 import {mapState} from 'vuex';
+const path = require('path')
 export default {
   computed:{
     ...mapState({
@@ -32,6 +33,9 @@ export default {
   methods: {
     goRouter(url){
       this.$router.push(url)
+    },
+    getStatic(url){
+      return path.join(__static,url)
     }
   },
 }

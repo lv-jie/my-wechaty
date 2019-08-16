@@ -7,7 +7,8 @@ const state = {
   loginType:false,
   loginUrl:'',
   userInfo:{},
-  friendList:[]
+  friendList:[],
+  messageList:[]
 }
 
 
@@ -31,8 +32,26 @@ const mutations = {
   SET_FRIEND_LIST(state,list){
     state.friendList = list;
   },
+  SET_MESSAGE_LIST(state,list){
+    state.messageList = list;
+  }
 }
-
+const getters = {
+  getOneUser:(state)=>(id)=>{
+    let user = state.friendList.filter(item=>{
+      return item.wx_id ==id
+    })
+    return user&&user.length?user[0]:{};
+  },
+  getMessage:(state)=>(id)=>{
+    console.log(state.messageList)
+    let user = state.messageList.filter(item=>{
+      return item.from_id == id ||item.to_id ==id
+    })
+    console.log(user)
+    return user?user:[];
+  }
+}
 const actions = {
   async setUserInfo({commit},user){
     commit('SET_USER_INFO',user)
@@ -53,109 +72,6 @@ const actions = {
   initLoginType({commit}){
     commit('SET_LOGIN_TYPE',null)
   },
-  async getAllFriend({commit},bot){
-    let id = bot.userSelf().id
-    let list;
-    let res;
-    let resList = []
-    try {
-      list = await bot.Contact.findAll()
-      res = list.forEach(async (item,index)=>{
-        const file = await item.avatar()
-        let name = file.name;
-        name = name.replace(/(\[|\]|\\|\/|\s)/g,'');
-        let avatarPath = path.join(__static,`/avatar/${name}`);
-        let userInfo = {
-          wx_id:item.id,
-          user_id:id,
-          name:item.payload.name,
-          alias:item.payload.alias,
-          avatar:`avatar/${name}`,
-          gender:item.payload.gender,
-          signature:item.payload.signature,
-          province:item.payload.province,
-          city:item.payload.city,
-        }
-        fs.exists(avatarPath,async (flag)=>{
-          if(flag){
-            console.log("文件存在");
-          }else{
-            console.log("文件不存在");
-            await file.toFile(avatarPath);
-          }
-        })
-        db_friend.findOne({wx_id:userInfo.wx_id},(err,res)=>{
-          if(!err){
-            if(res){
-              db_message.find({$or:[{from_id:userInfo.wx_id},{to_id:userInfo.wx_id}]}).sort({createdAt:-1}).exec(function (err, docs){
-                let temp
-                if(docs.length){
-                  temp = {
-                    ...userInfo,
-                    msg_time:docs[0].createdAt,
-                    msg_content:docs[0].content
-                  }
-                }else{
-                  temp = {
-                    ...userInfo,
-                    msg_time:0,
-                    msg_content:''
-                  }
-                }
-                db_friend.update({wx_id:userInfo.wx_id},temp,(err,newNum)=>{
-                  // console.log(newNum)
-                  if(index==list.length-1){
-                    db_friend.find({user_id:id}).sort({msg_time:-1}).exec((err,allList)=>{
-                      commit('SET_FRIEND_LIST',allList)
-                    })
-                  }
-                })
-              })
-              
-            }else{
-              db_message.find({$or:[{from_id:userInfo.wx_id},{to_id:userInfo.wx_id}]}).sort({createdAt:-1}).exec(function (err, docs){
-                let temp
-                if(docs.length){
-                  temp = {
-                    ...userInfo,
-                    msg_time:docs[0].createdAt,
-                    msg_content:docs[0].content
-                  }
-                }else{
-                  temp = {
-                    ...userInfo,
-                    msg_time:0,
-                    msg_content:''
-                  }
-                }
-                db_friend.insert(temp,(err,newUser)=>{
-                  // console.log(newUser)
-                  if(index==list.length-1){
-                    db_friend.find({user_id:id}).sort({msg_time:-1}).exec((err,allList)=>{
-                      commit('SET_FRIEND_LIST',allList)
-                    })
-                  }
-                })
-              })
-              
-              
-            }
-            // if(res){
-            //   db_friend.remove({_id:res._id},{},(e,numRemoved)=>{
-            //     // console.log(numRemoved)
-            //   })
-            // }
-            // db_friend.update({wx_id:userInfo.wx_id},userInfo,(err,newNum)=>{
-            //   // console.log(newNum)
-            // })
-          }
-        })
-      })
-    } catch (error) {
-      console.log('error',error)
-    }
-    commit('SET_FRIEND_LIST',list)
-  },
   async getFriendList({commit},id){
     console.log(id)
     return new Promise((resolve,reject)=>{
@@ -174,4 +90,5 @@ export default {
   state,
   mutations,
   actions,
+  getters
 }

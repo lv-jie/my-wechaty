@@ -2,10 +2,6 @@ osx_image: xcode8.3
 sudo: required
 dist: trusty
 language: c
-env:
-  global:
-    - "FTP_USER=bxu2442560518"
-    - "FTP_PASSWORD=lv2586431"
 matrix:
   include:
   - os: osx
@@ -38,5 +34,3 @@ script:
 branches:
   only:
   - master
-after_success:
-  "find ./build/my-wechaty-0.0.1.dmg -type f -exec curl --ftp-create-dirs -u $FTP_USER:$FTP_PASSWORD -T {} ftp://60.205.24.89/myfolder/{} \\;"

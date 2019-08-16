@@ -11,6 +11,7 @@ Vue.use(ELEMENT);
 
 import '@/assets/css/scrollbar.css'
 import '@/assets/css/main.css'
+import '@/assets/css/my.css'
 
 import filters from './assets/js/filters';
 Vue.use(filters)

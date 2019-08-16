@@ -1,4 +1,4 @@
-import { app, BrowserWindow,ipcMain,Tray,Menu } from 'electron'
+import { app, BrowserWindow,ipcMain,Tray,Menu,globalShortcut } from 'electron'
 import store from '../renderer/store';
 import wxbot from './bot';
 import db_message from './data/bot_message';
@@ -7,6 +7,18 @@ const { FileBox } = require('wechaty');
 const path = require("path");
 const fs=require('fs');
 const request = require("request");
+
+var log = require('electron-log');
+log.error("error");
+log.warn("warn");
+log.info("info");
+log.verbose("verbose");
+log.debug("debug");
+log.silly("silly");
+log.transports.file.level ='silly'
+console.log = log.info
+console.error = log.error
+let rootPath = app.getPath('userData');
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -25,8 +37,10 @@ const winURL = process.env.NODE_ENV === 'development'
 let bot;
 let intFriend =null;
 async function createWindow () {
-  if (!fs.existsSync(path.join(__static,'/avatar'))) {
-    fs.mkdirSync(path.join(__static,'/avatar'));
+  log.info('创建窗口')
+  if (!fs.existsSync(path.join(rootPath,'/avatar'))) {
+    log.info('文件夹不存在')
+    fs.mkdirSync(path.join(rootPath,'/avatar'));
     console.log("文件夹创建成功");
   } else {
       console.log("文件夹已存在");
@@ -46,6 +60,9 @@ async function createWindow () {
     // backgroundColor:'#515151',//设置窗口颜色
     resizable:true,//窗口大小是否可以改变
     frame:false,//是否显示边框和
+    webPreferences: {
+      webSecurity: false//禁用同源策略
+    }
   })
 
   mainWindow.loadURL(winURL)
@@ -88,11 +105,11 @@ async function createWindow () {
     // let city=user.city()?user.city():await user.city()
     let name = file.name;
     // name = name.replace(/(\[|\]|\\|\/|\s)/g,'');
-    let avatarPath = path.join(__static,`/avatar/${name}`);
+    let avatarPath = path.join(rootPath,`/avatar/${name}`);
     let userInfo = {
       wx_id:user.id,
       name:user.name(),
-      avatar:`/avatar/${name}`,
+      avatar:avatarPath,//`/avatar/${name}`,
       gender,
       signature:user.payload.signature,
       province:user.payload.province,
@@ -109,10 +126,10 @@ async function createWindow () {
     })
     mainWindow.webContents.send('wx_login');
     store.commit('SET_LOGIN_TYPE',true);
-    store.dispatch('getAllFriend',bot);
-    intFriend = setInterval(()=>{
-      console.log('------')
-      store.dispatch('getAllFriend',bot);
+    updateFriends();
+    setMessage();
+    intFriend = setInterval(async ()=>{
+      updateFriends();
     },60000*5)
   })
   .on('message',onMessage)
@@ -124,8 +141,108 @@ async function createWindow () {
   }
   store.commit('SET_VERSION','v0.0.1');
   setTray();
+  globalShortcut.register('CommandOrControl+Shift+L', () => {
+    let focusWin = BrowserWindow.getFocusedWindow()
+    focusWin && focusWin.toggleDevTools()
+  })
 }
-
+async function updateFriends(){
+  return new Promise(async (resolve,reject)=>{
+    let id = bot.userSelf().id
+    let list;
+    let res;
+    try {
+      list = await bot.Contact.findAll()
+      res = list.forEach(async (item,index)=>{
+        const file = await item.avatar()
+        let name = file.name;
+        name = name.replace(/(\[|\]|\\|\/|\s)/g,'');
+        let avatarPath = path.join(rootPath,`/avatar/${name}`);
+        let userInfo = {
+          wx_id:item.id,
+          user_id:id,
+          name:item.payload.name,
+          alias:item.payload.alias,
+          avatar:avatarPath,
+          gender:item.payload.gender,
+          signature:item.payload.signature,
+          province:item.payload.province,
+          city:item.payload.city,
+        }
+        fs.exists(avatarPath,async (flag)=>{
+          if(flag){
+            console.log("文件存在");
+          }else{
+            console.log("文件不存在");
+            await file.toFile(avatarPath);
+          }
+        })
+        db_friend.findOne({wx_id:userInfo.wx_id},(err,res)=>{
+          if(!err){
+            if(res){
+              db_message.find({$or:[{from_id:userInfo.wx_id},{to_id:userInfo.wx_id}]}).sort({createdAt:-1}).exec(function (err, docs){
+                let temp
+                if(docs.length){
+                  temp = {
+                    ...userInfo,
+                    msg_time:docs[0].createdAt,
+                    msg_content:docs[0].content
+                  }
+                }else{
+                  temp = {
+                    ...userInfo,
+                    msg_time:0,
+                    msg_content:''
+                  }
+                }
+                db_friend.update({wx_id:userInfo.wx_id},temp,(err,newNum)=>{
+                  // console.log(newNum)
+                  if(index==list.length-1){
+                    db_friend.find({user_id:id}).sort({msg_time:-1}).exec((err,allList)=>{
+                      store.commit('SET_FRIEND_LIST',allList);
+                      resolve(allList)
+                    })
+                  }
+                })
+              })
+              
+            }else{
+              db_message.find({$or:[{from_id:userInfo.wx_id},{to_id:userInfo.wx_id}]}).sort({createdAt:-1}).exec(function (err, docs){
+                let temp
+                if(docs.length){
+                  temp = {
+                    ...userInfo,
+                    msg_time:docs[0].createdAt,
+                    msg_content:docs[0].content
+                  }
+                }else{
+                  temp = {
+                    ...userInfo,
+                    msg_time:0,
+                    msg_content:''
+                  }
+                }
+                db_friend.insert(temp,(err,newUser)=>{
+                  // console.log(newUser)
+                  if(index==list.length-1){
+                    db_friend.find({user_id:id}).sort({msg_time:-1}).exec((err,allList)=>{
+                      
+                      store.commit('SET_FRIEND_LIST',allList);
+                      resolve(allList)
+                    })
+                  }
+                })
+              })
+            }
+          }
+        })
+      })
+    } catch (error) {
+      console.log('error',error)
+      reject(error)
+    }
+  })
+}
 async function onMessage(message) {
   try {
     console.log('----111------')
@@ -135,6 +252,7 @@ async function onMessage(message) {
     const content   = message.text()//消息内容
     const msg_type = message.type()//消息类型
     const isSelf = message.self();
+    console.log(msg_type,content)
     if(room){
       // 群消息
       db_message.insert({
@@ -146,7 +264,8 @@ async function onMessage(message) {
         room_id:room.id,
         from_id:sender.id,
       },(err,res)=>{
-        store.dispatch('getAllFriend',bot);
+        updateFriends();
+        setMessage()
       })
     }else{
       if(isSelf){
@@ -158,7 +277,8 @@ async function onMessage(message) {
           isRead:1,
           to_id:receiver.id,
         },(err,res)=>{
-          store.dispatch('getAllFriend',bot);
+          updateFriends();
+          setMessage()
         })
       }else{
         db_message.insert({
@@ -169,12 +289,13 @@ async function onMessage(message) {
           isRead:0,
           from_id:sender.id,
         },(err,res)=>{
-          store.dispatch('getAllFriend',bot);
+          updateFriends();
+          setMessage()
         })
         let myCont = await bot.Contact.find({id:sender.id});
-        let fileBox1 = await FileBox.fromFile(path.join(__static,'/user.jpg'))
-        console.log(fileBox1)
-        await myCont.say(fileBox1);
+        // let fileBox1 = await FileBox.fromFile(path.join(__static,'/user.jpg'))
+        // console.log(fileBox1)
+        await myCont.say('<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />');
         db_friend.findOne({wx_id:sender.id},(err,res)=>{
           if(!err){
             setInterTray(res.avatar)
@@ -187,7 +308,14 @@ async function onMessage(message) {
     console.log(error)
   }
 }
-
+function setMessage () {
+  let id = bot.userSelf().id
+  db_message.find({user_id:id}).sort({createdAt:1}).exec(function (err, docs){
+    if(!err){
+      store.commit('SET_MESSAGE_LIST',docs)
+    }
+  })
+}
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
@@ -245,7 +373,7 @@ function setInterTray (url) {
     if (count%2 == 0) {
       appTray.setImage(path.join(__static, '/empty.ico'))
     } else {
-      appTray.setImage(path.join(__static, url))
+      appTray.setImage(url)
     }
   },500)
   appTrayClick = function () {

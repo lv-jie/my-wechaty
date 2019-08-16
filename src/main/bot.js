@@ -9,7 +9,11 @@ const bot = {
   bot:null,
   init(){
     let self = this;
-    let bot = Wechaty.instance({name:'my-wechaty'})
+    let bot = new Wechaty({
+      name:'my-wechaty',
+      launchOptions:{ignoreDefaultArgs:['--disable-extensions']}
+      // puppet:'wechaty-puppet-wechat4u'
+    })
     bot.on('scan',(qrcode,status)=>{
       let url = decodeURIComponent(qrcode);
       if (!/201|200/.test(String(status))) {

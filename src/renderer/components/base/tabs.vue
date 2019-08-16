@@ -3,7 +3,7 @@
     <ul class="tab-list">
       <li class="tab-list-item" v-for="(item,index) in list" :key="index" :class="{active:value==item.wx_id}" @click="goChild(item)">
         <div class="item-img">
-          <img :src="`static/${item.avatar}`" alt="">
+          <img :src="`${item.avatar}`" alt="">
         </div>
         <div class="item-text">
           <div class="item-name text-over">{{item.name}}</div>
