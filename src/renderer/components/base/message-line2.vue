@@ -7,8 +7,7 @@
           <img :src="userInfo.avatar" alt="">
         </div>
         <div class="message-content">
-          <div class="content" v-if="item.msg_type == 7">
-            {{item.content}}
+          <div class="content" v-if="item.msg_type == 7" v-html="item.content">
           </div>
         </div>
       </div>

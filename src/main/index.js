@@ -292,10 +292,10 @@ async function onMessage(message) {
           updateFriends();
           setMessage()
         })
-        let myCont = await bot.Contact.find({id:sender.id});
+        // let myCont = await bot.Contact.find({id:sender.id});
         // let fileBox1 = await FileBox.fromFile(path.join(__static,'/user.jpg'))
         // console.log(fileBox1)
-        await myCont.say('<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />');
+        // await myCont.say('<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />');
         db_friend.findOne({wx_id:sender.id},(err,res)=>{
           if(!err){
             setInterTray(res.avatar)
@@ -415,6 +415,16 @@ ipcMain.on('win-close',(event,arg)=>{
 ipcMain.on('setInterTray',(event,arg)=>{
   saveUserImg(arg)
   setInterTray()
+})
+//收到消息
+ipcMain.on('wx-message',async (event,arg)=>{
+  let id = arg.id;
+  let text = arg.text;
+  let myCont = await bot.Contact.find({id:id});
+  console.log(text)
+  text = text.replace(/\<br\>/g,'\n')
+  console.log(text)
+  await myCont.say(text)
 })
 /**
  * Auto Updater

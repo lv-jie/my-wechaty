@@ -44,11 +44,9 @@ const getters = {
     return user&&user.length?user[0]:{};
   },
   getMessage:(state)=>(id)=>{
-    console.log(state.messageList)
     let user = state.messageList.filter(item=>{
       return item.from_id == id ||item.to_id ==id
     })
-    console.log(user)
     return user?user:[];
   }
 }

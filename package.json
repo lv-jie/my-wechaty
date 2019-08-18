@@ -59,7 +59,6 @@
     "axios": "^0.18.0",
     "element-ui": "2.9.2",
     "nedb": "^1.8.0",
-    "puppeteer-core": "^1.19.0",
     "qrcodejs2": "^0.0.2",
     "request": "^2.88.0",
     "vue": "^2.5.16",

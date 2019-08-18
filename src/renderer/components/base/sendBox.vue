@@ -12,21 +12,64 @@
       </div>
     </div>
     <div class="send-eidt">
-      <!-- <textarea name="" id="" cols="30" rows="3" class="text-box"></textarea> -->
-      <div class="text-box" contenteditable="true" placeholder="" tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
-        <img class="img" src="C:\Users\Administrator\AppData\Roaming\Electron\avatar\测试测试-avatar.jpg" alt="">
+      <!-- <textarea name="" id="" cols="30" rows="3" class="text-box" ref="content" @keydown.ctrl.enter="lineFeed" @keydown.enter.exact="sendMsg"></textarea> -->
+      <div @keydown.ctrl.enter.prevent="lineFeed" @keydown.enter.exact.prevent="sendMsg" class="text-box" ref="content" contenteditable="true" placeholder="" tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
       </div>
     </div>
     <div class="send-buttons">
       <span class="send-buttons-text">Eenter发送，Ctrl+Eenter换行</span>
       <!-- <button></button> -->
-      <button class="my-button" type="success">发送</button>
+      <button class="my-button" type="success" @click="sendMsg">发送</button>
     </div>
   </div>
 </template>
 <script>
 export default {
-  
+  data(){
+    return{
+    }
+  },
+  methods: {
+    sendMsg(){
+      let dom = this.$refs.content
+      let text = dom.innerHTML;
+      let id = this.$route.params.id;
+      // text = text.replace('<br>','\n')
+      console.log(text)
+      if(text){
+        console.log(this.$refs.content.innerHTML,this.$route.params.id)
+        this.$electron.ipcRenderer.send('wx-message',{id:id,text:text})
+        dom.innerHTML = ''
+      }else{
+        return
+      }
+    },
+    lineFeed(){
+      console.log('huanhang')
+      let dom = this.$refs.content
+      let text = dom.innerHTML;
+      dom.innerHTML = text + '<br></br>'
+      this.placeCaretAtEnd(dom)
+    },
+    placeCaretAtEnd(el) {
+            el.focus();
+            if (typeof window.getSelection != "undefined"
+                && typeof document.createRange != "undefined") {
+                var range = document.createRange();
+                range.selectNodeContents(el);
+                range.collapse(false);
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+            else if (typeof document.body.createTextRange != "undefined") {
+                var textRange = document.body.createTextRange();
+                textRange.moveToElementText(el);
+                textRange.collapse(false);
+                textRange.select();
+            }
+    },
+  },
 }
 </script>
 <style lang="less" scoped>
@@ -49,6 +92,7 @@ export default {
       height: 95px;
       font-size: 14px;
       line-height: 2;
+      overflow-y: auto;
       border:none;
       outline: none;
       .img{

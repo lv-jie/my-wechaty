@@ -53,7 +53,7 @@ export default {
     border-bottom:1px solid #ececec; 
   }
   .message-history{
-    height: calc(100% - 210px);
+    height: calc(100% - 220px);
     overflow-y: auto;
     overflow-x: hidden;
     background: #f5f5f5;
