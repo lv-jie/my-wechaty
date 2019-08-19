@@ -13,7 +13,7 @@ const state = {
     {
       id:'emoji1f639',//微笑
       top:'0',
-      left:'30px',
+      left:'-30px',
       content:'<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />',
       src:'/static/emoji/emoji1.png'
     }

@@ -7,7 +7,7 @@
           <img :src="user.avatar" alt="">
         </div>
         <div class="message-content">
-          <div class="content" v-if="item.msg_type == 7" v-html="item.content">
+          <div class="content" v-if="item.msg_type == 7" v-html="formatimg(item.content)">
           </div>
         </div>
       </div>
@@ -35,6 +35,16 @@ export default {
       
     }
   },
+  methods:{
+    formatimg(text){
+      let reg = /\<img class=\"(qqemoji) ([a-z0-9]*)\".*\/\>/g;
+      let res = text.match(reg)
+        console.log(res)
+      if(res&&res[1]){
+      }
+      return text
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

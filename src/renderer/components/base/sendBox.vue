@@ -5,7 +5,7 @@
         <i class="wxicon wx-biaoqing"></i>
         <div class="emoji-model" v-if="emojiModel">
           <div class="emoji-item" v-for="(item,index) in emojiList" :key="`emoji${index}`">
-            <span :class="item.left" :style="`background-image:url(${item.src});background-position:${item.top+' '+item.left};`"></span>
+            <span :title="item.title" :class="item.left" :style="`background-image:url(${item.src});background-position:${item.left} ${item.top};`"></span>
           </div>
         </div>
       </div>
@@ -29,18 +29,20 @@
   </div>
 </template>
 <script>
-import {mapState} from 'vuex';
+// import {mapState} from 'vuex';
+import list from "../../../../static/emoji/emojiList.js"
 export default {
   data(){
     return{
       emojiModel:false,
+      emojiList:list
     }
   },
-  computed:{
-    ...mapState({
-      emojiList:({option})=>option.emojiList
-    })
-  },
+  // computed:{
+  //   ...mapState({
+  //     emojiList:({option})=>option.emojiList
+  //   })
+  // },
   methods: {
     sendMsg(){
       let dom = this.$refs.content
@@ -79,6 +81,9 @@ export default {
             }
     },
   },
+  created(){
+    console.log(this.emojiList)
+  }
 }
 </script>
 <style lang="less" scoped>
