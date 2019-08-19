@@ -26,6 +26,9 @@ export default {
       this.$electron.ipcRenderer.send('setInterTray',this.url)
     }
   },
+  created(){
+    this.$electron.ipcRenderer.send('win-init')
+  }
 }
 </script>
 <style lang="less" scoped>

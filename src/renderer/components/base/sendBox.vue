@@ -1,13 +1,18 @@
 <template>
   <div class="send-box">
     <div class="send-bar">
-      <div>
+      <div class="send-button" @click="emojiModel=!emojiModel">
         <i class="wxicon wx-biaoqing"></i>
+        <div class="emoji-model" v-if="emojiModel">
+          <div class="emoji-item" v-for="(item,index) in emojiList" :key="`emoji${index}`">
+            <span :class="item.left" :style="`background-image:url(${item.src});background-position:${item.top+' '+item.left};`"></span>
+          </div>
+        </div>
       </div>
-      <div>
+      <div class="send-button">
         <i class="wxicon wx-picture"></i>
       </div>
-      <div>
+      <div class="send-button">
         AI
       </div>
     </div>
@@ -24,10 +29,17 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex';
 export default {
   data(){
     return{
+      emojiModel:false,
     }
+  },
+  computed:{
+    ...mapState({
+      emojiList:({option})=>option.emojiList
+    })
   },
   methods: {
     sendMsg(){
@@ -35,9 +47,7 @@ export default {
       let text = dom.innerHTML;
       let id = this.$route.params.id;
       // text = text.replace('<br>','\n')
-      console.log(text)
       if(text){
-        console.log(this.$refs.content.innerHTML,this.$route.params.id)
         this.$electron.ipcRenderer.send('wx-message',{id:id,text:text})
         dom.innerHTML = ''
       }else{
@@ -45,7 +55,6 @@ export default {
       }
     },
     lineFeed(){
-      console.log('huanhang')
       let dom = this.$refs.content
       let text = dom.innerHTML;
       dom.innerHTML = text + '<br></br>'
@@ -80,8 +89,38 @@ export default {
     border-top: 1px solid #ececec;
     display: flex;
     padding: 5px;
-    div{
+    .send-button{
       padding: 0 5px;
+      cursor: pointer;
+      position: relative;
+      .emoji-model{
+        width: 480px;
+        height: 275px;
+        position: absolute;
+        padding: 10px;
+        box-shadow: 0 0 15px #ccc;
+        bottom: 28px;
+        left: -50%;
+        background: #fff;
+        .emoji-item{
+          width: 30px;
+          height: 30px;
+          float: left;
+          text-align: center;
+          span{
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            // background-size:100% 100%; 
+          }
+        }
+        .emoji-item:hover{
+          background: #e7e7e7;
+        }
+      }
+    }
+    .send-button:hover{
+      color: #000;
     }
   }
   .send-eidt{

@@ -64,7 +64,6 @@ async function createWindow () {
       webSecurity: false//禁用同源策略
     }
   })
-
   mainWindow.loadURL(winURL)
   //窗口失去焦点时触发
   mainWindow.on('blur',event=>{
@@ -90,6 +89,15 @@ async function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+  // mainWindow.once('ready-to-show',event=>{
+    try {
+      mainWindow.setMinimumSize(350,550);
+      mainWindow.setSize(350,550)
+    } catch (error) {
+      console.log(error)
+    }
+  //   }
+  // )
   bot = wxbot.init()
   bot.on('logout',(user)=>{
     mainWindow.webContents.send('wx_logout');
@@ -264,8 +272,12 @@ async function onMessage(message) {
         room_id:room.id,
         from_id:sender.id,
       },(err,res)=>{
-        updateFriends();
-        setMessage()
+        try {
+          updateFriends();
+          setMessage()
+        } catch (error) {
+          console.log(error)
+        }
       })
     }else{
       if(isSelf){
@@ -277,8 +289,12 @@ async function onMessage(message) {
           isRead:1,
           to_id:receiver.id,
         },(err,res)=>{
-          updateFriends();
-          setMessage()
+          try {
+            updateFriends();
+            setMessage()
+          } catch (error) {
+            console.log(error)
+          }
         })
       }else{
         db_message.insert({
@@ -289,8 +305,12 @@ async function onMessage(message) {
           isRead:0,
           from_id:sender.id,
         },(err,res)=>{
-          updateFriends();
-          setMessage()
+          try {
+            updateFriends();
+            setMessage()
+          } catch (error) {
+            console.log(error)
+          }
         })
         // let myCont = await bot.Contact.find({id:sender.id});
         // let fileBox1 = await FileBox.fromFile(path.join(__static,'/user.jpg'))
@@ -393,6 +413,11 @@ async function  saveUserImg(url) {
   let stream = fs.createWriteStream(path.join(__static, '/user.png'));
   readStream.pipe(stream)
 }
+ipcMain.on('win-init',(event,arg)=>{
+  console.log('win-init')
+  mainWindow.setMinimumSize(750,550);
+  mainWindow.setSize(750,550)
+})
 //窗口最小化
 ipcMain.on('minimize',(event,arg)=>{
   mainWindow.minimize();

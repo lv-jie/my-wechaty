@@ -20,9 +20,10 @@ export default {
     goStart(){
       if(this.wxLoginType===null){
         // console.log('初始化中')
-        this.$router.push('/message')
+        // this.$router.push('/message')
       }else if(this.wxLoginType){
         this.$router.push('/home')
+        this.$electron.ipcRenderer.send('win-init')
       }else{
         this.$router.push('/wxLogin')
       }
@@ -30,3 +31,8 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.indexPage{
+  background: #fff;
+}  
+</style>

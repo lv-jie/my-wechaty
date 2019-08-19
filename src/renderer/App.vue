@@ -15,7 +15,6 @@ export default {
     this.initLoginType()
     this.$electron.ipcRenderer.on('wx_login',(event, arg)=>{
       this.$router.push('/home')
-      console.log(event, arg)
     })
     this.$electron.ipcRenderer.on('wx_logout',(event, arg)=>{
       this.$router.push('/wxLogin')
