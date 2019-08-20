@@ -3,364 +3,274 @@ let list =[
   {
     "id":"qqemoji0",
     "title":"微笑",
-    "top":"0px",
-    "left":"0px",
     "content":"<img class=\"qqemoji qqemoji0\" text=\"[微笑]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji0"
   },
   {
     "id":"qqemoji1",
     "title":"撇嘴",
-    "top":"0px",
-    "left":"-28px",
     "content":"<img class=\"qqemoji qqemoji1\" text=\"[撇嘴]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji1"
   },
   {
     "id":"qqemoji2",
     "title":"色",
-    "top":"0px",
-    "left":"-57px",
     "content":"<img class=\"qqemoji qqemoji2\" text=\"[色]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji2"
   },
   {
     "id":"qqemoji3",
     "title":"发呆",
-    "top":"0px",
-    "left":"-86px",
     "content":"<img class=\"qqemoji qqemoji3\" text=\"[发呆]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji3"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji4",
     "title":"得意",
-    "top":"0px",
-    "left":"-115px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji4\" text=\"[得意]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji4"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji5",
     "title":"流泪",
-    "top":"0px",
-    "left":"-144px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji5\" text=\"[流泪]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji5"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji6",
     "title":"害羞",
-    "top":"0px",
-    "left":"-173px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji6\" text=\"[害羞]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji6"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji7",
     "title":"闭嘴",
-    "top":"0px",
-    "left":"-202px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji7\" text=\"[闭嘴]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji7"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji8",
     "title":"睡",
-    "top":"0px",
-    "left":"-232px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji8\" text=\"[睡]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji8"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji9",
     "title":"大哭",
-    "top":"0px",
-    "left":"-260px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji9\" text=\"[大哭]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji9"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji10",
     "title":"尴尬",
-    "top":"0px",
-    "left":"-288px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji10\" text=\"[尴尬]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji10"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji11",
     "title":"发怒",
-    "top":"0px",
-    "left":"115px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji11\" text=\"[发怒]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji11"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji12",
     "title":"调皮",
-    "top":"0px",
-    "left":"87px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji12\" text=\"[调皮]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji12"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji13",
     "title":"呲牙",
-    "top":"0px",
-    "left":"57px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji13\" text=\"[呲牙]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji13"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji14",
     "title":"惊讶",
-    "top":"0px",
-    "left":"28px",
-    "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "content":"<img class=\"qqemoji qqemoji14\" text=\"[惊讶]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
+    "class":"qqemoji qqemoji14"
   },
   // 第二行
   {
-    "id":"qqemoji0",
+    "id":"qqemoji15",
     "title":"难过",
-    "top":"-28px",
-    "left":"0px",
     "content":"<img class=\"qqemoji qqemoji0\" text=\"[微笑]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji15"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji16",
     "title":"酷",
-    "top":"-28px",
-    "left":"-28px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji16"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji17",
     "title":"囧",
-    "top":"-28px",
-    "left":"-57px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji17"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji18",
     "title":"抓狂",
-    "top":"-28px",
-    "left":"-86px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji18"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji19",
     "title":"吐",
-    "top":"-28px",
-    "left":"-115px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji19"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji20",
     "title":"偷笑",
-    "top":"-28px",
-    "left":"-144px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji20"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji21",
     "title":"愉快",
-    "top":"-28px",
-    "left":"-173px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji21"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji22",
     "title":"白眼",
-    "top":"-28px",
-    "left":"-202px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji22"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji23",
     "title":"傲慢",
-    "top":"-28px",
-    "left":"-232px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji23"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji24",
     "title":"饥饿",
-    "top":"-28px",
-    "left":"-260px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji24"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji25",
     "title":"困",
-    "top":"-28px",
-    "left":"-289px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji25"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji26",
     "title":"惊恐",
-    "top":"-28px",
-    "left":"117px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji26"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji27",
     "title":"流汗",
-    "top":"-28px",
-    "left":"87px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji27"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji28",
     "title":"憨笑",
-    "top":"-28px",
-    "left":"57px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji28"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji29",
     "title":"悠闲",
-    "top":"-28px",
-    "left":"28px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji29"
   },
   // 第三行
   {
-    "id":"qqemoji0",
+    "id":"qqemoji30",
     "title":"难过",
-    "top":"-57px",
-    "left":"0px",
     "content":"<img class=\"qqemoji qqemoji0\" text=\"[微笑]_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji30"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji31",
     "title":"酷",
-    "top":"-57px",
-    "left":"-28px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji31"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji32",
     "title":"囧",
-    "top":"-57px",
-    "left":"-57px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji32"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji33",
     "title":"抓狂",
-    "top":"-57px",
-    "left":"-86px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji33"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji34",
     "title":"吐",
-    "top":"-57px",
-    "left":"-115px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji34"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji35",
     "title":"偷笑",
-    "top":"-57px",
-    "left":"-144px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji35"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji36",
     "title":"愉快",
-    "top":"-57px",
-    "left":"-173px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji36"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji37",
     "title":"白眼",
-    "top":"-57px",
-    "left":"-202px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji37"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji38",
     "title":"傲慢",
-    "top":"-57px",
-    "left":"-232px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji38"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji39",
     "title":"饥饿",
-    "top":"-57px",
-    "left":"-260px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji39"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji40",
     "title":"困",
-    "top":"-57px",
-    "left":"-289px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji40"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji41",
     "title":"惊恐",
-    "top":"-57px",
-    "left":"116px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji41"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji42",
     "title":"流汗",
-    "top":"-57px",
-    "left":"87px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji42"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji43",
     "title":"憨笑",
-    "top":"-57px",
-    "left":"57px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji43"
   },
   {
-    "id":"emoji1f639",
+    "id":"qqemoji44",
     "title":"悠闲",
-    "top":"-57px",
-    "left":"28px",
     "content":"<img class=\"emoji emoji1f602\" text=\"_web\" src=\"/zh_CN/htmledition/v2/images/spacer.gif\" />",
-    "src":"/static/emoji/emoji1.png"
+    "class":"qqemoji qqemoji44"
   },
 ]
 export default list;

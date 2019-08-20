@@ -4,8 +4,8 @@
       <div class="send-button" @click="emojiModel=!emojiModel">
         <i class="wxicon wx-biaoqing"></i>
         <div class="emoji-model" v-if="emojiModel">
-          <div class="emoji-item" v-for="(item,index) in emojiList" :key="`emoji${index}`">
-            <span :title="item.title" :class="item.left" :style="`background-image:url(${item.src});background-position:${item.left} ${item.top};`"></span>
+          <div class="emoji-item" v-for="(item,index) in emojiList" :key="`emoji${index}`" :title="item.title" @click="addEmoji(item)">
+            <span :title="item.title" :class="item.class"></span>
           </div>
         </div>
       </div>
@@ -18,7 +18,7 @@
     </div>
     <div class="send-eidt">
       <!-- <textarea name="" id="" cols="30" rows="3" class="text-box" ref="content" @keydown.ctrl.enter="lineFeed" @keydown.enter.exact="sendMsg"></textarea> -->
-      <div @keydown.ctrl.enter.prevent="lineFeed" @keydown.enter.exact.prevent="sendMsg" class="text-box" ref="content" contenteditable="true" placeholder="" tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+      <div @click="setLastRange" @keyup="setLastRange" @keydown.ctrl.enter.prevent="lineFeed" @keydown.enter.exact.prevent="sendMsg" class="text-box" ref="content" contenteditable="true" placeholder="" tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
       </div>
     </div>
     <div class="send-buttons">
@@ -35,7 +35,8 @@ export default {
   data(){
     return{
       emojiModel:false,
-      emojiList:list
+      emojiList:list,
+      lastEditRange:''
     }
   },
   // computed:{
@@ -44,12 +45,74 @@ export default {
   //   })
   // },
   methods: {
+    setLastRange(){
+      let selection = getSelection();
+      this.lastEditRange = selection.getRangeAt(0);
+    },
+    addEmoji(item){
+      let dom = this.$refs.content
+      let selection = window.getSelection
+        ? window.getSelection()
+        : document.selection;
+      dom.focus();
+      if (this.lastEditRange) {
+          // 存在最后光标对象，选定对象清除所有光标并添加最后光标还原之前的状态
+          selection.removeAllRanges();
+          selection.addRange(this.lastEditRange);
+      }
+      var range = selection.createRange
+          ? selection.createRange()
+          : selection.getRangeAt(0);
+      if (!window.getSelection) {
+          let selection = window.getSelection
+              ? window.getSelection()
+              : document.selection;
+          var range = selection.createRange
+              ? selection.createRange()
+              : selection.getRangeAt(0);
+          range.pasteHTML(`<img class="${item.class}" src="../../../../static/empty.ico">`);
+          range.collapse(false);
+          range.select();
+      } else {
+          var hasR = range.createContextualFragment(`<img class="${item.class}" src="../../../../static/empty.ico">`);
+          var hasR_lastChild = hasR.lastChild;
+          while (
+              hasR_lastChild &&
+              hasR_lastChild.nodeName.toLowerCase() == 'br' &&
+              hasR_lastChild.previousSibling &&
+              hasR_lastChild.previousSibling.nodeName.toLowerCase() == 'br'
+          ) {
+              var e = hasR_lastChild;
+              hasR_lastChild = hasR_lastChild.previousSibling;
+              hasR.removeChild(e);
+          }
+          range.insertNode(hasR);
+          if (hasR_lastChild) {
+              range.setEndAfter(hasR_lastChild);
+              range.setStartAfter(hasR_lastChild);
+          }
+          range.collapse(false);
+          selection.removeAllRanges();
+          selection.addRange(range);
+      }
+      // 无论如何都要记录最后光标对象
+      this.lastEditRange = selection.getRangeAt(0);
+    },
     sendMsg(){
       let dom = this.$refs.content
       let text = dom.innerHTML;
       let id = this.$route.params.id;
       // text = text.replace('<br>','\n')
       if(text){
+        for (let index = 0; index < this.emojiList.length; index++) {
+          let item = this.emojiList[index];
+          let domText = `<img class="${item.class}" src="../../../../static/empty.ico">`
+          if(text.indexOf(domText)!=-1){
+            text = text.replace(domText,item.content)
+            --index
+          }
+        }
+        // console.log(text)
         this.$electron.ipcRenderer.send('wx-message',{id:id,text:text})
         dom.innerHTML = ''
       }else{
@@ -81,9 +144,6 @@ export default {
             }
     },
   },
-  created(){
-    console.log(this.emojiList)
-  }
 }
 </script>
 <style lang="less" scoped>

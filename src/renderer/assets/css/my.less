@@ -1,0 +1,28 @@
+.my-button{
+  font-size: 14px;
+  padding: 4px 10px;
+}
+.my-button[type="success"]{
+  background: #9eea6a;
+}
+.qqemoji{
+  display: inline-block;
+  border:none;
+  vertical-align:bottom;
+  width: 29px;
+  height: 29px;
+  background-image: url('../../../../static/emoji/emoji1.png');
+}
+.fun-po(@val){
+  background-position:(mod(@val,15)*-29)+ 0px (floor(@val/15)*-29)+ 0px;
+}
+
+.fun-lh(@val){line-height: @val;}
+
+.loop-lh(@val)when(@val>0){
+    .qqemoji@{val}{
+        .fun-po(@val)
+    }
+    .loop-lh(@val - 1)
+}
+.loop-lh(105);

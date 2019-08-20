@@ -9,6 +9,12 @@
         <div class="message-content">
           <div class="content" v-if="item.msg_type == 7" v-html="formatimg(item.content)">
           </div>
+          <div class="content" v-else-if="item.msg_type == 6">
+            <img :src="item.content" alt="" style="width:30%">
+          </div>
+          <div class="content" v-else>
+            该消息类型暂不支持查看
+          </div>
         </div>
       </div>
     </div>
@@ -37,7 +43,16 @@ export default {
   },
   methods:{
     formatimg(text){
-      console.log(text)
+      let reg = /^\<img class=\"(qqemoji) ([a-z0-9]*)\".*\/\>$/;
+      let res = text.match(/<img.*?(?:>|\/>)/g)
+      if(res&&res[1]){
+        res.forEach(item => {
+          let arr = item.match(reg)
+          if(arr&&arr[2]){
+            text = text.replace(item,`<span class="${arr[1]} ${arr[2]}"></span>`)
+          }
+        });
+      }
       return text
     }
   }

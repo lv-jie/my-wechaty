@@ -3,6 +3,7 @@ import store from '../renderer/store';
 import wxbot from './bot';
 import db_message from './data/bot_message';
 import db_friend from './data/bot_friend';
+import db_room from './data/bot_room';
 const { FileBox } = require('wechaty');
 const path = require("path");
 const fs=require('fs');
@@ -135,6 +136,7 @@ async function createWindow () {
     mainWindow.webContents.send('wx_login');
     store.commit('SET_LOGIN_TYPE',true);
     updateFriends();
+    updateRooms();
     setMessage();
     intFriend = setInterval(async ()=>{
       updateFriends();
@@ -194,7 +196,7 @@ async function updateFriends(){
                   temp = {
                     ...userInfo,
                     msg_time:docs[0].createdAt,
-                    msg_content:docs[0].content
+                    msg_content:docs[0].msg_type==7?docs[0].content.replace(/<img.*?(?:>|\/>)/g,'[表情]'):docs[0].msg_type==6?'[图片]':'[其他消息]'
                   }
                 }else{
                   temp = {
@@ -221,7 +223,7 @@ async function updateFriends(){
                   temp = {
                     ...userInfo,
                     msg_time:docs[0].createdAt,
-                    msg_content:docs[0].content
+                    msg_content:docs[0].msg_type==7?docs[0].content.replace(/<img.*?(?:>|\/>)/g,'[表情]'):docs[0].msg_type==6?'[图片]':'[其他消息]'
                   }
                 }else{
                   temp = {
@@ -251,6 +253,33 @@ async function updateFriends(){
     }
   })
 }
+async function updateRooms(){
+  return new Promise(async (resolve,reject)=>{
+    let id = bot.userSelf().id
+    let list;
+    let res;
+    try {
+      list = await bot.Room.findAll()
+      res = list.forEach(async (item,index)=>{
+        let roomName = await item.topic();
+        let roomInfo = {
+          name:roomName,
+          wx_id:item.id,
+          user_id:id,
+        }
+        db_room.findOne({wx_id:roomInfo.wx_id},(err,res)=>{
+          if(!err){
+            if(res){
+
+            }
+          }
+        })
+      })
+    } catch (error) {
+      
+    }
+  })
+}
 async function onMessage(message) {
   try {
     console.log('----111------')
@@ -260,6 +289,7 @@ async function onMessage(message) {
     const content   = message.text()//消息内容
     const msg_type = message.type()//消息类型
     const isSelf = message.self();
+    let src = ''
     console.log(msg_type,content)
     if(room){
       // 群消息
@@ -267,13 +297,13 @@ async function onMessage(message) {
         user_id:receiver.id,
         type:1,
         msg_type,
-        content,
+        content:msg_type==7?content:src,
         isRead:0,
         room_id:room.id,
         from_id:sender.id,
       },(err,res)=>{
         try {
-          updateFriends();
+          updateRooms()
           setMessage()
         } catch (error) {
           console.log(error)
@@ -281,11 +311,19 @@ async function onMessage(message) {
       })
     }else{
       if(isSelf){
+        if(msg_type!=7){
+          const file = await message.toFileBox()
+          const fileName = file.name;
+          const tempPath = app.getPath('temp')
+          const messageFilePath = path.join(tempPath,fileName)
+          await file.toFile(messageFilePath)
+          src = messageFilePath
+        }
         db_message.insert({
           user_id:sender.id,
           type:3,
           msg_type,
-          content,
+          content:msg_type==7?content:src,
           isRead:1,
           to_id:receiver.id,
         },(err,res)=>{
@@ -297,11 +335,19 @@ async function onMessage(message) {
           }
         })
       }else{
+        if(msg_type!=7){
+          const file = await message.toFileBox()
+          const fileName = file.name;
+          const tempPath = app.getPath('temp')
+          const messageFilePath = path.join(tempPath,fileName)
+          await file.toFile(messageFilePath)
+          src = messageFilePath
+        }
         db_message.insert({
           user_id:receiver.id,
           type:2,
           msg_type,
-          content,
+          content:msg_type==7?content:src,
           isRead:0,
           from_id:sender.id,
         },(err,res)=>{
@@ -446,7 +492,6 @@ ipcMain.on('wx-message',async (event,arg)=>{
   let id = arg.id;
   let text = arg.text;
   let myCont = await bot.Contact.find({id:id});
-  console.log(text)
   text = text.replace(/\<br\>/g,'\n')
   console.log(text)
   await myCont.say(text)

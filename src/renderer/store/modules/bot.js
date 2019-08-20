@@ -8,7 +8,8 @@ const state = {
   loginUrl:'',
   userInfo:{},
   friendList:[],
-  messageList:[]
+  messageList:[],
+  roomList:[]
 }
 
 
@@ -34,6 +35,9 @@ const mutations = {
   },
   SET_MESSAGE_LIST(state,list){
     state.messageList = list;
+  },
+  SET_ROOM_LIST(state,list){
+    state.roomList = list;
   }
 }
 const getters = {
