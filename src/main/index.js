@@ -408,7 +408,7 @@ function setTray () {
     let trayMenuTemplate = [{     // 系统托盘图标目录
         label: '退出',
         click: function () {
-            app.quit();
+            app.exit();
         }
     }];
     // 当前目录下的app.ico图标
